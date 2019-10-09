@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	namespace：命名空间，它的作用就是对SQL进行分类化管理，可以理解为SQL隔离
+	注意：使用mapper代理开发时，namespace有特殊且重要的作用
+ -->
+<mapper namespace="cn.zpeace.blog.mapper.BlogMapper">
+    <!--
+        [id]：statement的id，要求在命名空间内唯一
+        [parameterType]：入参的java类型
+        [resultType]：查询出的单条结果集对应的java类型
+        [#{}]： 表示一个占位符?
+        [#{id}]：表示该占位符待接收参数的名称为id。注意：如果参数为简单类型时，#{}里面的参数名称可以是任意定义
+     -->
+    <resultMap id="blogBean" type="cn.zpeace.blog.pojo.Blog">
+        <id column="blog_id" property="blogId"></id>
+        <result property="blogTitle" column="blog_title"></result>
+        <result property="blogContent" column="blog_content"></result>
+        <result property="blogView" column="blog_view"></result>
+        <result property="blogBrief" column="blog_brief"></result>
+        <result property="blogType" column="blog_type"></result>
+        <result property="appreciation" column="appreciation"></result>
+        <result property="comment" column="comment"></result>
+        <result property="copyright" column="copyright"></result>
+        <result property="published" column="published"></result>
+        <result property="updateTime" column="update_time"></result>
+        <result property="createTime" column="create_time"></result>
+        <association property="category" javaType="cn.zpeace.blog.pojo.Category">
+            <id property="categoryId" column="category_id"></id>
+            <result property="categoryName" column="category_name"></result>
+        </association>
+        <collection property="tags" ofType="cn.zpeace.blog.pojo.Tag">
+            <id property="tagId" column="tag_id"></id>
+            <result property="tagName" column="tag_name"></result>
+        </collection>
+    </resultMap>
+
+    <insert id="insertAssociation" parameterType="cn.zpeace.blog.pojo.Blog">
+        insert into t_blog_tag (blog_id,tag_id) values
+        <foreach collection="tagIds" item="tagId" separator=",">
+            (#{blogId},#{tagId})
+        </foreach>
+    </insert>
+
+
+
+
+
+
+    <select id="getOne" resultMap="blogBean" parameterType="integer">
+        SELECT
+            b.*,
+            t.tag_name
+        FROM
+            (
+                SELECT
+                    b.*, c.category_name,
+                    bt.tag_id
+                FROM
+                    t_blog b
+                LEFT JOIN t_category c ON b.category_id = c.category_id
+                LEFT JOIN t_blog_tag bt ON b.blog_id = bt.blog_id
+                WHERE
+			        b.blog_id = #{blogId}
+            ) b
+        LEFT JOIN
+            t_tag t
+        ON t.tag_id = b.tag_id
+    </select>
+
+
+
+    <select id="getBlogDetail" resultMap="blogBean">
+        SELECT
+            b.*,
+            t.tag_id,
+            t.tag_name
+        FROM
+            (
+                SELECT
+                    b.*, c.category_name
+                FROM
+                    t_blog b
+                LEFT JOIN t_category c ON b.category_id = c.category_id
+                <where>
+                    <if test="keyword != null">
+                        and blog_title LIKE  "%${keyword}%"
+                    </if>
+                    <if test="published">
+                        and b.published = 1
+                    </if>
+                    <if test="categoryId != null">
+                        and c.category_id = #{categoryId}
+                    </if>
+                </where>
+                ORDER BY create_time DESC
+                LIMIT #{page.start},#{page.pageSize}
+            ) b
+        LEFT JOIN
+        (SELECT
+            t.tag_id,
+            t.tag_name,
+            bt.blog_id
+        FROM
+            t_tag t
+        LEFT JOIN t_blog_tag bt
+        ON t.tag_id = bt.tag_id) t
+        ON b.blog_id = t.blog_id
+        ORDER BY b.create_time DESC
+    </select>
+
+    <select id="countKeyword" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM
+        t_blog b
+        LEFT JOIN t_category c ON b.category_id = c.category_id
+        <where>
+            <if test="keyword != null">
+                and b.blog_title LIKE  "%${keyword}%"
+            </if>
+            <if test="categoryId != null">
+                and c.category_id = 22
+            </if>
+            <if test="published">
+                and published = 1
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

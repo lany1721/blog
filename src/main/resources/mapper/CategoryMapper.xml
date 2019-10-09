@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	namespace：命名空间，它的作用就是对SQL进行分类化管理，可以理解为SQL隔离
+	注意：使用mapper代理开发时，namespace有特殊且重要的作用
+ -->
+<mapper namespace="cn.zpeace.blog.mapper.CategoryMapper">
+    <!--
+        [id]：statement的id，要求在命名空间内唯一
+        [parameterType]：入参的java类型
+        [resultType]：查询出的单条结果集对应的java类型
+        [#{}]： 表示一个占位符?
+        [#{id}]：表示该占位符待接收参数的名称为id。注意：如果参数为简单类型时，#{}里面的参数名称可以是任意定义
+     -->
+    <resultMap id="categoryBean" type="cn.zpeace.blog.pojo.Category">
+        <id column="category_id" property="categoryId"></id>
+        <result column="category_name" property="categoryName"></result>
+        <result column="category_create_time" property="createTime"></result>
+        <result column="category_update_time" property="updateTime"></result>
+        <collection property="blogs" ofType="cn.zpeace.blog.pojo.Blog">
+            <id column="blog_id" property="blogId"></id>
+        </collection>
+    </resultMap>
+
+    <select id="getAll" resultMap="categoryBean">
+        SELECT
+            b.blog_id,
+            c.category_id,
+            c.create_time AS category_create_time,
+            c.category_name,
+            c.update_time AS category_update_time
+        FROM
+            t_blog b
+        LEFT JOIN
+            t_category c
+        ON b.category_id = c.category_id
+        WHERE b.published = TRUE
+    </select>
+</mapper>

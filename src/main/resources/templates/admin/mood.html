@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客发布</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" th:href="@{/css/me.css}">
+
+</head>
+<body>
+
+<div th:replace="admin/fragments::sidebar"></div>
+<div class="pusher">
+    <i class="arrow circle right icon" id="toggle-sidebar"></i>
+    <nav th:replace="admin/fragments::nav"></nav>
+
+    <!-- Site content !-->
+    <div  class="m-container m-padded-tb-big">
+        <div class="ui container">
+            <h3 class="header teal">发表博客</h3>
+            <hr>
+        </div>
+    </div>
+
+    <!--中间内容-->
+
+</div>
+
+
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.js"></script>
+<script th:src="@{/plugin/editormd/editormd.js}"></script>
+<script>
+    $('.ui.dropdown').dropdown({
+        on : 'click'
+    });
+
+
+    var i=0;
+
+    $("#toggle-sidebar").click(function () {
+        if (i==0){
+            $("#toggle-sidebar").attr("class","arrow circle left icon");
+            i=1;
+        } else {
+            $("#toggle-sidebar").attr("class","arrow circle right icon");
+            i=0;
+        }
+        $('.ui.sidebar').sidebar({
+            dimPage: false,
+            closable: false,
+
+
+        }).sidebar('toggle')
+        ;
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>标签 | 管理后台</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" th:href="@{/css/me.css}">
+
+</head>
+<body>
+
+<div th:replace="admin/fragments::sidebar"></div>
+<div class="pusher">
+    <nav th:replace="admin/fragments::nav"></nav>
+
+    <button class="ui secondary big icon button" id="toggle-sidebar">
+        <i class="sidebar icon"></i>
+        <span id="show-menu" style="display: none">菜单</span>
+    </button>
+    <!-- Site content !-->
+    <div  class="m-container m-padded-tb-big">
+        <div class="ui container">
+            <h3 class="ui horizontal divider header"><i class="tags icon"></i> 标签 - [[${tags.total}]]</h3>
+
+            <table class="ui celled table">
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>添加时间</th>
+                    <th>修改时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="tag:${tags.records}">
+                    <input type="hidden" th:value="${tag.tagId}">
+                    <td th:text="${tag.tagName}">刻意练习清单</td>
+                    <td th:text="${#dates.format(tag.createTime,'yyyy-MM-dd HH:mm')}">2018-5-5</td>
+                    <td th:text="${#dates.format(tag.updateTime,'yyyy-MM-dd HH:mm')}">2018-5-5</td>
+                    <td>
+                        <button class="ui mini teal basic button edit-tag-modal-btn">编辑</button>
+                        <button class="ui mini red basic button del-tag-modal-btn">删除</button>
+                    </td>
+                </tr>
+
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="5">
+                        <div class="ui mini pagination menu">
+                            <a class=" item" th:href="@{/admin/tag(pageNum=${tags.current<=1}?${1}:${(tags.current)-1})}">上一页</a>
+                            <a class=" item" th:href="@{/admin/tag(pageNum=${tags.current>=tags.pages}?${tags.pages}:${(tags.current)+1})}">下一页</a>
+                        </div>
+
+                        <button id="add-tag-modal-btn" class="ui mini right floated teal basic button">新增</button>
+
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+
+    <div id="add-tag-modal" class="ui tiny  modal">
+        <div class="header">
+            新增标签
+        </div>
+
+        <div class="content">
+            <form id="add-form" class="ui form">
+                <div class="field">
+                    <div class="ui labeled fluid input">
+                        <div class="ui label">标签名</div>
+                        <input type="text" placeholder="请输入" id="tagName" name="tagName">
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="actions">
+            <div class="ui button cancel">取消</div>
+            <div class="ui submit ok button" id="add-btn">提交</div>
+        </div>
+    </div>
+    <div id="edit-tag-modal" class="ui tiny  modal">
+        <div class="header">
+            修改标签
+        </div>
+        <div class="content">
+            <form id="edit-form" class="ui form">
+                <div class="field">
+                    <div class="ui labeled fluid input">
+                        <div class="ui label">标签名</div>
+                        <input type="text" placeholder="请输入" id="tagNameE" name="tagName">
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="actions">
+            <div class="ui button cancel">取消</div>
+            <div class="ui submit ok button">提交</div>
+        </div>
+    </div>
+    <div id="del-tag-modal"class="ui mini basic modal">
+        <div class="ui icon header red">
+            <i class="trash alternate outline icon"></i>
+            该操作不可撤销
+        </div>
+        <div class="content">
+            <p>你确定要删除该标签？</p>
+        </div>
+        <div class="actions">
+            <div class="ui red basic cancel inverted button">
+                <i class="remove icon"></i>
+                否
+            </div>
+            <div class="ui green ok inverted button">
+                <i class="checkmark icon"></i>
+                是
+            </div>
+        </div>
+    </div>
+    <!--中间内容-->
+
+</div>
+
+
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.js"></script>
+<script th:src="@{/js/admin.js}"></script>
+
+<script>
+    $("#add-tag-modal-btn").click(function () {
+        $('#add-tag-modal').modal({
+            onHidden: $("#tagName").val("").css("border","1px solid rgba(34,36,38,.15)"),
+            onApprove: function () {
+                var tagName = $("#tagName").val();
+                if (!tagName){
+                    $("#tagName").css("border","1px solid red").attr("placeholder","不能输入空名称");
+                    return false;
+                }else {
+                    $.ajax({
+                        url: '/admin/tag',
+                        type:"POST",
+                        contentType:"application/json;charset=utf-8",
+                        data:tagName,
+                        success:function(data){
+                            if (data == 200) {
+                                window.location.href="/admin/tag";
+                            }else {
+                                alert("添加出现错误")
+                            }
+                            $('#add-tag-modal')
+                                .modal('hide')
+                            ;
+                        }
+                    })
+                }
+            }
+        })
+            .modal('show')
+        ;
+    });
+
+
+    $(".edit-tag-modal-btn").click(function () {
+        var tagName = $(this).parent().prev().prev().prev().text();
+        var tagId = $(this).parent().prev().prev().prev().prev().val();
+
+        $('#edit-tag-modal').modal({
+            onShow: function () {
+                $("#tagNameE").val(tagName)
+            },
+            onApprove: function () {
+                var tagName = $("#tagNameE").val();
+                if (!tagName){
+                    $("#tagNameE").css("border","1px solid red").attr("placeholder","不能输入空名称");
+                    return false;
+                }else if (!tagId){
+                    $("#tagNameE").css("border","1px solid red").attr("placeholder","出现未知错误");
+                    return false
+                } else {
+                    $.ajax({
+                        url: '/admin/tag/'+tagId,
+                        type:"PUT",
+                        contentType:"application/json;charset=utf-8",
+                        data:tagName,
+                        success:function(data){
+                            if (data == 200) {
+                                window.location.href="/admin/tag";
+                            }else {
+                                alert("修改出现错误")
+                            }
+                            $('#edit-tag-modal')
+                                .modal('hide')
+                            ;
+                        }
+                    })
+                }
+            },
+            onHidden: $("#tagNameE").val("").css("border","1px solid rgba(34,36,38,.15)"),
+
+        })
+            .modal('show')
+        ;
+    });
+
+
+    $(".del-tag-modal-btn").click(function () {
+        var tagId = $(this).parent().prev().prev().prev().prev().val();
+        $("#del-tag-modal").modal({
+            onApprove : function() {
+                $.ajax({
+                    url: '/admin/tag/'+tagId,
+                    type:"DELETE",
+                    contentType:"application/json;charset=utf-8",
+                    success:function(data){
+                        if (data == 200) {
+                            window.location.href="/admin/tag";
+                        }else {
+                            alert("删除出现错误")
+                        }
+                        $('#del-tag-modal')
+                            .modal('hide')
+                        ;
+                    }
+                })
+            }
+        }).modal('show')
+    })
+</script>
+</body>
+</html>

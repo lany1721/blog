@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="钟瓶镜的个人博客">
+    <meta name="keywords" content="钟瓶镜,个人博客">
+    <meta name="author" content="Zpeace">
+    <title>ZpeaceのBlog</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/input.min.css">
+    <link rel="stylesheet" href="/css/label.min.css">
+    <!--<link rel="stylesheet" href="/css/icon.min.css">-->
+    <link rel="stylesheet" href="/css/button.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css">
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=66476416" charset="UTF-8"></script>
+    <link href="https://cdn.bootcss.com/semantic-ui/2.4.1/components/icon.min.css" rel="stylesheet">
+    <link rel="dns-prefetch" href="https://cdn.staticfile.org">
+    <link rel="dns-prefetch" href="https://cdn.bootcss.com">
+    <link rel="dns-prefetch" href="https://creativecommons.org">
+
+</head>
+<body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i>
+<div th:replace="fragments::#sidebar"></div>
+<nav th:replace="fragments::#nav"></nav>
+<div id="content-outer">
+    <div class="layout" id="content-inner">
+        <div th:if="${blogs.total <= 0 and keyword != null}"><h2>没有匹配的搜索结果,<a href="/">点击返回</a></h2></div>
+        <div class="recent-post-item article-container" th:each="blog:${blogs.records}">
+            <div th:if="${blog.published}">
+            <a class="article-title" th:href="@{'/article/' + ${blog.blogId}}" th:text="${blog.blogTitle}">test</a>
+            <time class="post-meta__date">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+                <span th:text="${#dates.format(blog.createTime,'yyyy-MM-dd')}">2019-09-25</span>
+            </time>
+            <span class="article-meta">
+                <span class="article-meta__separator">|</span>
+                <i class="fa fa-folder article-meta__icon" aria-hidden="true"></i>
+                <a class="article-meta__categories" th:href="@{'/category/' + ${blog.category.categoryId}}" th:text="${blog.category.categoryName}">云服务器</a>
+            </span>
+            <span class="article-meta">
+                <span class="article-meta__separator">|</span>
+                <i class="fa fa-eye article-meta__icon" aria-hidden="true"></i>
+                <a class="article-meta__categories" th:text="${blog.blogView}">云服务器</a>
+            </span>
+            <span class="article-meta tags">
+                <span th:each="tag:${blog.tags}">
+                    <span class="article-meta__separator">-</span>
+                    <i class="fa fa-tag article-meta__icon" aria-hidden="true"></i>
+                    <a class="article-meta__tags" th:href="@{'/tag/' + ${tag.tagId}}" th:text="${tag.tagName}">centOS</a>
+                </span>
+            </span>
+            <div class="content" th:utext="${blog.blogBrief}"></div>
+                <hr>
+            </div>
+        </div>
+
+        <div class="ui mini circular labels" th:if="${keyword == null}">
+            <a th:each="page:${#numbers.sequence(1,blogs.getPages())}"
+               th:href="@{/index/(pageNum = ${page})}"
+               th:class="${page == blogs.pageNum}?'ui teal label':'ui label'" th:text="${page}">
+            </a>
+        </div>
+        <!--<div class="ui mini circular labels" th:if="${blogs.pages > 1} and ${keyword != null}">-->
+            <!--<a th:each="page:${#numbers.sequence(1,blogs.pages)}"-->
+               <!--th:href="@{'/search/' + ${keyword}}"-->
+               <!--th:class="${page == blogs.current}?'ui teal label':'ui label'" th:text="${page}">-->
+            <!--</a>-->
+        <!--</div>-->
+    </div>
+</div>
+<footer th:replace="fragments::#footer-bg"></footer>
+<div id="search-box">
+    <div class="ui action input">
+        <input type="text" id="show-menu" placeholder="搜索..." style="display: none">
+        <button id="search-btn" class="ui mini grey icon button">
+                <i class="search icon"></i>
+        </button>
+
+    </div>
+</div>
+
+<i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i>
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script>
+<script src="/js/fancybox.js"></script>
+<script src="/js/sidebar.js"></script>
+<script src="/js/copy.js"></script>
+<script src="/js/fireworks.js"></script>
+<script src="/js/transition.js"></script>
+<script src="/js/scroll.js"></script>
+<script src="/js/head.js"></script>
+<script>if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+    $('#nav').addClass('is-mobile');
+    $('footer').addClass('is-mobile')
+}
+
+
+    $("#search-box").hover(function () {
+        $("#show-menu").toggle(300)
+    });
+
+
+
+    $("#search-btn").click(function () {
+        var keyword = $.trim($("#show-menu").val());
+
+        if (keyword){
+           window.location.href="/search/"+keyword
+        }
+
+    })
+
+</script>
+</body>
+</html>

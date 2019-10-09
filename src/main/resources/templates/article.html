@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" th:content="${blog.blogTitle}">
+    <meta name="keywords" th:content="${blog.blogTitle}+','+${blog.category.categoryName}">
+    <meta name="author" content="Zpeace">
+    <title>[[${blog.blogTitle}]] | Zpeace</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/plugin/prism/prism.css">
+    <link rel="stylesheet" href="/plugin/tocbot/tocbot.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css">
+    <link rel="dns-prefetch" href="https://cdn.staticfile.org">
+    <link rel="dns-prefetch" href="https://cdn.bootcss.com">
+    <link rel="dns-prefetch" href="https://creativecommons.org">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+</head>
+<body>
+<i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i>
+
+<div id="sidebar">
+    <div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span>
+        <hr>
+    </div>
+    <div class="sidebar-toc">
+        <div class="sidebar-toc__title">Catalog</div>
+        <div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span
+                class="progress-num">0</span><span class="progress-percentage">%</span>
+            <div class="sidebar-toc__progress-bar"></div>
+        </div>
+        <div class="sidebar-toc__content">
+            <ol class="toc">
+            </ol>
+        </div>
+    </div>
+    <div class="author-info hide">
+        <div class="author-info__avatar text-center"><img src="/images/head.jpg"></div>
+        <div class="author-info__name text-center">Zpeace</div>
+        <div class="author-info__description text-center"></div>
+        <div class="follow-button"><a href="/about">About Me</a></div>
+        <hr>
+        <div class="author-info-articles">
+            <a class="author-info-articles__archives article-meta" href="/archives">
+                <span class="pull-left">Articles</span>
+                <span class="pull-right" th:text="${countBlog}">2</span>
+            </a>
+            <a class="author-info-articles__tags article-meta" href="/tags">
+                <span class="pull-left">Tags</span>
+                <span class="pull-right" th:text="${countTag}">2</span>
+            </a>
+            <a class="author-info-articles__categories article-meta" href="/categories">
+                <span class="pull-left">Categories</span>
+                <span class="pull-right" th:text="${countCategory}">1</span>
+            </a>
+        </div>
+        <hr>
+        <div class="author-info-links">
+            <div class="author-info-links__title text-center">Links</div>
+            <a target="_blank" th:each="link:${links}" class="author-info-links__name text-center" th:href="${link.linkUrl}" th:text="${link.linkName}">Molunerfinn</a>
+        </div>
+    </div>
+</div>
+<div id="content-outer">
+    <div class="plain" id="top-container" style="background-image: url(https://pic3.zhimg.com/138402c7eaa294df3ec8b4f9dbbe8257_r.jpg)">
+        <div id="page-header">
+            <span class="pull-left"><a id="site-name" href="/">Zpeace</a></span>
+            <i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i>
+            <span class="pull-right menus">
+                <a class="site-page" href="/">Home</a>
+                <a class="site-page" href="/archives">Archives</a>
+                <a class="site-page" href="/tags">Tags</a>
+                <a class="site-page" href="/categories">Categories</a>
+            </span>
+        </div>
+    </div>
+    <div class="layout" id="content-inner">
+        <article id="post">
+            <div class="plain" id="post-title" th:text="${blog.blogTitle}">test</div>
+            <div id="post-meta">
+                <time class="post-meta__date">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <span th:text="${#dates.format(blog.createTime,'yyyy-MM-dd')}">2019-09-25</span>
+                </time>
+                <span class="post-meta__separator">|</span>
+                <i class="fa fa-folder" aria-hidden="true"></i>
+                <a class="post-meta__categories" th:href="@{'/category/' + ${blog.category.categoryId}}" th:text="${blog.category.categoryName}"> 云服务器</a>
+                <span class="post-meta__separator">|</span>
+                <i class="fa fa-eye" aria-hidden="true"></i>
+                <a class="post-meta__categories" th:text="${blog.blogView}"></a>
+
+            </div>
+            <div class="article-container" id="post-content" th:utext="${blog.blogContent}">
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1>
+                <p>
+                    前段时间，我用electron-vue开发了一款跨平台（目前支持主流三大桌面操作系统）的免费开源的图床上传应用——PicGo，在开发过程中踩了不少的坑，不仅来自应用的业务逻辑本身，也来自electron本身。在开发这个应用过程中，我学了不少的东西。因为我也是从0开始学习electron，所以很多经历应该也能给初学、想学electron开发的同学们一些启发和指示。故而写一份Electron的开发实战经历，用最贴近实际工程项目开发的角度来阐述。希望能帮助到大家。</p>
+                <p>预计将会从几篇系列文章或方面来展开：</p>
+                <ol>
+                    <li>electron-vue入门</li>
+                    <li>Main进程和Renderer进程的简单开发</li>
+                    <li>引入基于Lodash的JSON database——lowdb</li>
+                    <li>跨平台的一些兼容措施</li>
+                    <li>通过CI发布以及更新的方式</li>
+                    <li>开发插件系统——CLI部分</li>
+                    <li>开发插件系统——GUI部分</li>
+                    <li>命令行调用与系统级别右键菜单的实现</li>
+                    <li>想到再写…</li>
+                </ol>
+                <h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1>
+                <p>
+                    PicGo是采用electron-vue开发的，所以如果你会vue，那么跟着一起来学习将会比较快。如果你的技术栈是其他的诸如react、angular，那么纯按照本教程虽然在render端（可以理解为页面）的构建可能学习到的东西不多，不过在main端(Electron的主进程）应该还是能学习到相应的知识的。</p>
+                <p>如果之前的文章没阅读的朋友可以先从之前的文章跟着看。本文主要是基于PicGo v2.1.0版本更新的重要内容做的讲述。</p>
+            </div>
+        </article>
+        <div class="post-copyright" th:if="${blog.copyright}">
+            <div class="post-copyright__author">
+                <span class="post-copyright-meta">Author: </span>
+                <span class="post-copyright-info">
+                    <a href="mailto:1106124433@qq.com">Zpeace</a>
+                </span>
+            </div>
+            <div class="post-copyright__type">
+                <span class="post-copyright-meta">Link: </span>
+                <span class="post-copyright-info">
+                    <a th:href="@{'/article/' + ${blog.blogId}}" th:text="'http://www.zpeace.cn/'+${blog.blogTitle}"></a>
+                </span>
+            </div>
+            <div class="post-copyright__notice">
+                <span class="post-copyright-meta">版权声明: </span>
+                <span class="post-copyright-info">All articles in this blog are licensed under
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+                    unless stating additionally.
+                </span>
+            </div>
+        </div>
+        <div class="post-meta__tag-list">
+            <a class="post-meta__tags" th:each="tag:${blog.tags}" th:href="@{'/tag/' + ${tag.tagId}}" th:text="${tag.tagName}">centOS</a>
+        </div>
+        <!--<nav id="pagination">-->
+            <!--<div class="next-post pull-right"><a href="/2019/09/25/hello-world/"><span>Hello World</span><i-->
+                    <!--class="fa fa-chevron-right"></i></a></div>-->
+        <!--</nav>-->
+        <div id="gitalk-container">
+        </div>
+    </div>
+</div>
+<footer th:replace="fragments::#footer-bg"></footer>
+<i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i>
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+<script src="/plugin/prism/prism.js"></script>
+<script src="/plugin/tocbot/tocbot.min.js"></script>
+<script src="/js/utils.js"></script>
+<script src="/js/fancybox.js"></script>
+<script src="/js/sidebar.js"></script>
+<script src="/js/copy.js"></script>
+<script src="/js/fireworks.js"></script>
+<script src="/js/transition.js"></script>
+<script src="/js/scroll.js"></script>
+<script src="/js/head.js"></script>
+<script>if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+    $('#nav').addClass('is-mobile');
+    $('footer').addClass('is-mobile')
+}
+tocbot.init({
+    // Where to render the table of contents.
+    tocSelector: '.toc',
+    // Where to grab the headings to build the table of contents.
+    contentSelector: '.article-container',
+    // Which headings to grab inside of the contentSelector element.
+    headingSelector: 'h1, h2, h3, h4',
+    // For headings inside relative or absolute positioned containers within content.
+    hasInnerContainers: true,
+});
+
+var gitalk = new Gitalk({
+    clientID: '59031e088b6c03113145',
+    clientSecret: 'fa3960eb8472b9cd82ad24cc46510c41207d29c3',
+    repo: 'blog',
+    owner: 'lany1721',
+    admin: ['lany1721'],
+    id: location.pathname,      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+});
+
+gitalk.render('gitalk-container')
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言 | 管理后台</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" th:href="@{/css/me.css}">
+
+</head>
+<body>
+
+<div th:replace="admin/fragments::sidebar"></div>
+<div class="pusher">
+    <nav th:replace="admin/fragments::nav"></nav>
+
+    <button class="ui secondary big icon button" id="toggle-sidebar">
+        <i class="sidebar icon"></i>
+        <span id="show-menu" style="display: none">菜单</span>
+    </button>
+    <!-- Site content !-->
+    <div  class="m-container m-padded-tb-big">
+        <div class="ui container">
+            <h3 class="ui horizontal divider header"><i class="envelope outline icon"></i> 留言 - [[${messages.total}]]</h3>
+
+            <div class="ui container segment">
+                <button class="ui mini blue basic button" id="read-batch-btn">批量已读</button>
+                <button class="ui mini red basic button" id="del-batch-btn">批量删除</button>
+            </div>
+
+
+            <table class="ui celled table">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" id="parent-box"></th>
+                    <th>昵称</th>
+                    <th>邮箱</th>
+                    <th>状态</th>
+                    <th>留言时间</th>
+                    <th>留言内容</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="message:${messages.records}">
+                    <td><input type="checkbox" class="child-box" name="messageId" th:value="${message.commentId}"></td>
+                    <td th:text="${message.commentName}">刻意练习清单</td>
+                    <td th:text="${message.commentEmail}">1106124433@qq.com</td>
+                    <td>
+                        <a th:if="${message.commentStatus == 0}" class="ui red label">未读</a>
+                        <a th:if="${message.commentStatus == 1}" class="ui green label">已读</a>
+                    </td>
+                    <td th:text="${#dates.format(message.createTime,'yyyy-MM-dd HH:mm')}">2018-5-5</td>
+                    <td th:text="${message.commentContent}">巴拉巴拉八八零零零零</td>
+                    <td>
+                        <button class="ui mini teal basic button reply-modal-btn">回复</button>
+                        <button class="ui mini teal basic button view-reply">查看回复</button>
+                        <button class="ui mini red basic button del-message-modal-btn">删除</button>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot th:if="${messages.pages > 1}">
+                <tr>
+                    <th colspan="7">
+                        <div class="ui mini pagination menu">
+                            <a class=" item" th:href="@{/admin/message(pageNum=${messages.current<=1}?${1}:${(messages.current)-1})}">上一页</a>
+                            <a class=" item" th:href="@{/admin/message(pageNum=${messages.current>=messages.pages}?${messages.pages}:${(messages.current)+1})}">下一页</a>
+                        </div>
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+
+            <div class="ui container segment" style="display: none">
+                <h4 class="ui header">留言：你是猪6的回复-</h4>
+                <table class="ui celled table">
+                    <thead>
+                    <tr>
+                        <th>昵称</th>
+                        <th>邮箱</th>
+                        <th>回复时间</th>
+                        <th>回复内容</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="message:${messages.records}">
+                        <td th:text="${message.commentName}">刻意练习清单</td>
+                        <td th:text="${message.commentEmail}">1106124433@qq.com</td>
+                        <td th:text="${#dates.format(message.createTime,'yyyy-MM-dd HH:mm')}">2018-5-5</td>
+                        <td th:text="${message.commentContent}">巴拉巴拉八八零零零零</td>
+                        <td>
+                            <button class="ui mini red basic button">删除</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot >
+                    <tr>
+                        <th colspan="7">
+                            <div class="ui mini pagination menu">
+                                <a class=" item" th:href="@{/admin/message(pageNum=${messages.current<=1}?${1}:${(messages.current)-1})}">上一页</a>
+                                <a class=" item" th:href="@{/admin/message(pageNum=${messages.current>=messages.pages}?${messages.pages}:${(messages.current)+1})}">下一页</a>
+                            </div>
+                        </th>
+                    </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="reply-modal" class="ui tiny  modal">
+        <div class="header">
+            回复
+        </div>
+        <div class="content">
+            <form id="reply-form" class="ui form">
+                <div class="field">
+                    <div class="ui labeled fluid input">
+                        <div class="ui label">回复内容</div>
+                        <input type="text" placeholder="请输入" id="replyContent"  name="replyContent">
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="actions">
+            <div class="ui button cancel">取消</div>
+            <div class="ui submit ok button">提交</div>
+        </div>
+    </div>
+    <div id="del-message-modal"class="ui mini basic modal">
+        <div class="ui icon header red">
+            <i class="trash alternate outline icon"></i>
+            该操作不可撤销,并且关联的回复也会被删除
+        </div>
+        <div class="content">
+            <p>是否确认删除？</p>
+        </div>
+        <div class="actions">
+            <div class="ui red basic cancel inverted button">
+                <i class="remove icon"></i>
+                否
+            </div>
+            <div class="ui green ok inverted button">
+                <i class="checkmark icon"></i>
+                是
+            </div>
+        </div>
+    </div>
+    <!--中间内容-->
+
+</div>
+
+
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.js"></script>
+<script th:src="@{/js/admin.js}"></script>
+<script>
+    $("#parent-box").click(function () {
+        var cbs = $(".child-box");
+        for (var i = 0; i < cbs.length; i++) {
+            cbs[i].checked = this.checked
+        }
+    });
+
+    $(".reply-modal-btn").click(function () {
+        var messageId = $(this).parent().prev().prev().prev().prev().prev().prev().children().val();
+
+        $('#reply-modal').modal({
+            onApprove: function () {
+                console.log(messageId);
+                var replyContent = $("#replyContent").val();
+                console.log(replyContent);
+                if (!replyContent){
+                    $("#replyContent").css("border","1px solid red").attr("placeholder","不能输入空名称");
+                    return false;
+                }else {
+                    var data = {parentCommentId:messageId,commentContent:replyContent};
+                    $.ajax({
+                        url: '/admin/message',
+                        type:"POST",
+                        contentType:"application/json;charset=utf-8",
+                        data:JSON.stringify(data),
+                        success:function(data){
+                            if (data == 200) {
+                                window.location.href="/admin/tag";
+                            }else {
+                                alert("回复出现错误")
+                            }
+                            $('#reply-modal')
+                                .modal('hide')
+                            ;
+                        }
+                    })
+                }
+            },
+            onHidden: $("#replyContent").val("").css("border","1px solid rgba(34,36,38,.15)"),
+
+        })
+            .modal('show')
+        ;
+    });
+
+
+    $(".del-message-modal-btn").click(function () {
+        var messageId = $(this).parent().prev().prev().prev().prev().prev().prev().children().val();
+
+        $("#del-message-modal").modal({
+            onApprove : function() {
+                $.ajax({
+                    url: '/admin/message/'+messageId,
+                    type:"DELETE",
+                    contentType:"application/json;charset=utf-8",
+                    success:function(data){
+                        if (data == 200) {
+                            window.location.href="/admin/message";
+                        }else {
+                            alert("删除出现错误")
+                        }
+                        $('#del-message-modal')
+                            .modal('hide')
+                        ;
+                    }
+                })
+            }
+        }).modal('show')
+    });
+
+    $(".view-reply").click(function () {
+        var parentCommentId = $(this).parent().prev().prev().prev().prev().prev().prev().children().val();
+        $.ajax({
+            url: '/admin/message/'+parentCommentId,
+            type:"GET",
+            contentType:"application/json;charset=utf-8",
+            data:parentCommentId,
+            success:function(data){
+                if (data == 200) {
+                    console.log("200")
+                }else {
+                    alert("删除出现错误")
+                }
+
+            }
+        })
+    });
+
+    $("#del-batch-btn").click(function () {
+        var ids = [];
+        $('input:checkbox[name=messageId]:checked').each(function () {
+            ids.push($(this).val());
+        });
+        if (ids.length==0){
+            return
+        }
+        console.log(ids);
+        $("#del-message-modal").modal({
+            onApprove : function() {
+                $.ajax({
+                    url: '/admin/message',
+                    type:"DELETE",
+                    contentType:"application/json;charset=utf-8",
+                    data:JSON.stringify(ids),
+                    success:function(data){
+                        if (data == 200) {
+                            window.location.href="/admin/message";
+                        }else {
+                            alert("删除出现错误")
+                        }
+                        $('#del-message-modal')
+                            .modal('hide')
+                        ;
+                    }
+                })
+            }
+        }).modal('show')
+    });
+
+
+    $("#read-batch-btn").click(function () {
+        var ids = [];
+        $('input:checkbox[name=messageId]:checked').each(function () {
+            ids.push($(this).val());
+        });
+        if (ids.length==0){
+            return
+        }
+        console.log(ids);
+        $.ajax({
+            url: '/admin/message',
+            type:"PUT",
+            contentType:"application/json;charset=utf-8",
+            data:JSON.stringify(ids),
+            success:function(data){
+                if (data == 200) {
+                    window.location.href="/admin/message";
+                }else {
+                    alert("出现错误")
+                }
+
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

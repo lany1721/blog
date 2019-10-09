@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+</head>
+<body>
+<div class="m-container">
+    <div class="ui middle aligned center aligned grid">
+        <div class="column">
+            <h2 class="ui teal header">Login Page</h2>
+            <div class="ui error message" th:if="${message!=null}">
+                <span th:text="${message}"></span>
+            </div>
+            <form class="ui large form" action="/admin/login" method="post">
+                <div class="ui stacked segment">
+                    <div class="field">
+                        <div class="ui left mini  icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="username" placeholder="用户名" required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left mini icon input">
+                            <i class="lock icon"></i>
+                            <input type="password" name="password" placeholder="密码" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="ui fluid mini teal submit button">登录</button>
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

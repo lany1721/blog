@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="sidebar" class="ui thin compact sidebar labeled icon inverted vertical menu">
+    <div class="header item">
+        <h3  class="ui teal header item">管理后台</h3>
+    </div>
+    <a th:href="@{/admin/}" class="item">
+        <i class="home icon"></i>
+        仪表盘
+    </a>
+
+    <a th:href="@{/admin/blog}" class="item">
+        <i class="edit icon left"></i>
+        博文
+    </a>
+    <a th:href="@{/admin/category}" class="item">
+        <i class="folder icon"></i>
+        分类
+    </a>
+    <a th:href="@{/admin/tag}" class="item">
+        <i class="tags icon"></i>
+        标签
+    </a>
+    <a th:href="@{/admin/link}" class="item">
+        <i class="linkify icon"></i>
+        友情
+    </a>
+</div>
+
+<nav th:fragment="nav" class="ui inverted attached segment m-padded-tb-mini">
+    <div class="ui container">
+        <div class="ui inverted secondary  menu ">
+            <!--<h3 href="#" class="ui teal header item">管理后台</h3>-->
+            <div class="right menu">
+                <a th:href="@{/}" class="item"><i class="mini home icon"></i>博客首页</a>
+                <div class="ui dropdown  item">
+                    <div class="text">
+                        <img class="ui avatar image" th:src="${session.user.avatar}">
+                        <span th:text="${session.user.nickname}"></span>
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a th:href="@{/admin/logout}" class="item">注销</a>
+                        <a th:href="@{/admin/user}" class="item">个人信息</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

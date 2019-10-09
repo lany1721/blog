@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="tags">
+    <meta name="keywords" content>
+    <meta name="author" content="Zpeace">
+    <title>tags | Zpeace</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="dns-prefetch" href="https://cdn.staticfile.org">
+    <link rel="dns-prefetch" href="https://cdn.bootcss.com">
+    <link rel="dns-prefetch" href="https://creativecommons.org">
+
+</head>
+<body>
+
+<i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i>
+<div th:replace="fragments::#sidebar"></div>
+<nav th:replace="fragments::#nav"></nav>
+<div class="layout ui container">
+    <br>
+    <h1 class="ui  header  center aligned">Tag - [[${countTag}]]</h1>
+    <div class="tag-cloud ui container">
+        <!--<div class="tag-cloud__title">Tag - <span class="tag-cloud__amount">2</span></div>-->
+        <div class="tag-cloud-tags">
+            <a th:each="tag:${tags}" th:href="@{'/tag/' + ${tag.tagId} }" style="font-size: 20px; color: #a4d8fa" th:text="${tag.tagName}">centOS</a>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="fragments::#footer-bg"></footer>
+<i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i>
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script>
+<script th:src="@{/js/utils.js}"></script>
+<script th:src="@{/js/fancybox.js}"></script>
+<script th:src="@{/js/sidebar.js}"></script>
+<script th:src="@{/js/copy.js}"></script>
+<script th:src="@{/js/fireworks.js}"></script>
+<script th:src="@{/js/transition.js}"></script>
+<script th:src="@{/js/scroll.js}"></script>
+<script th:src="@{/js/head.js}"></script>
+<script>if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+    $('#nav').addClass('is-mobile');
+    $('footer').addClass('is-mobile')
+}</script>
+</body>
+</html>

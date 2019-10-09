@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="关于我">
+    <meta name="keywords" content="钟瓶镜">
+    <meta name="author" content="Zpeace">
+    <title>about | Zpeace</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css">
+    <link rel="dns-prefetch" href="https://cdn.staticfile.org">
+    <link rel="dns-prefetch" href="https://cdn.bootcss.com">
+    <link rel="dns-prefetch" href="https://creativecommons.org">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+</head>
+<style>
+
+</style>
+<body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i>
+<div th:replace="fragments::#sidebar"></div>
+<nav th:replace="fragments::#nav"></nav>
+<div id="content-outer">
+    <div class="layout" id="content-inner">
+        <br>
+        <h3 class="ui  header">About me</h3>
+        <div th:utext="${about}">
+        </div>
+        <br>
+        <h3 class="ui header">Messages</h3>
+        <div id="gitalk-container">
+        </div>
+        <!--<div class="ui container segment" style="line-height: 1.4285em;!important;">-->
+            <!--<form class="ui form" method="post" action="/message">-->
+                <!--<div class="two fields">-->
+                    <!--<div class="field">-->
+                        <!--<div class="ui mini transparent input">-->
+                            <!--<input type="text" placeholder="昵称" name="commentName">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="field">-->
+                        <!--<div class="ui mini transparent input">-->
+                            <!--<input type="text" placeholder="邮箱地址" name="commentEmail" required>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="field">-->
+                    <!--<textarea rows="3" style="border: none;margin-left: -10px;font-size: 14px;padding: 0 10px" placeholder="说点什么呢..." name="commentContent" required></textarea>-->
+                <!--</div>-->
+                <!--<div class="field">-->
+                    <!--<button id="reply-btn" type="submit" class="ui mini teal basic button right floated" style="font-size: 10px">回复</button>-->
+                <!--</div>-->
+                <!--<br>-->
+            <!--</form>-->
+        <!--</div>-->
+        <!--<div class="ui threaded comments">-->
+            <!--<div class="comment" th:each="message:${messages.records}">-->
+                <!--<div class="content">-->
+                    <!--<a class="author" th:text="${message.commentName}">Matt</a>-->
+                    <!--<div class="metadata">-->
+                        <!--<span class="date" th:text="${#dates.format(message.createTime,'yyyy-MM-dd')}">Today at 5:42PM</span>-->
+                    <!--</div>-->
+                    <!--<div class="text" th:text="${message.commentContent}">-->
+                        <!--How artistic!-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;<div class="actions">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a class="reply">Reply</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--&lt;!&ndash;<div class="comment">&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="content">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a class="author">Elliot Fu</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="metadata">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<span class="date">Yesterday at 12:30AM</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="text">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p>This has been very useful for my research. Thanks as well!</p>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="actions">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a class="reply">Reply</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;<div id="reply" style="border-left: 1px solid silver;margin-left: 2em;margin-top: 0.5em;padding-left: 1em">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="comment">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="content">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<a class="author">Jenny Hess</a>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<div class="metadata">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<span class="date">Just now</span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<div class="text">&ndash;&gt;-->
+                                <!--&lt;!&ndash;Elliot you are always so right :)&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<div class="actions">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<a class="reply">Reply</a>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+        <!--</div>-->
+        <!--<div class="ui mini circular labels" th:if="${messages.pages > 1}">-->
+            <!--<a th:each="page:${#numbers.sequence(1,messages.pages)}"-->
+               <!--th:href="@{/about/(pageNum = ${page})}"-->
+               <!--th:class="${page == messages.current}?'ui teal label':'ui label'" th:text="${page}">-->
+            <!--</a>-->
+
+        <!--</div>-->
+    </div>
+</div>
+<footer th:replace="fragments::#footer-bg"></footer>
+<i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i>
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script>
+<!--<script src="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="/js/utils.js"></script>
+<script src="/js/fancybox.js"></script>
+<script src="/js/sidebar.js"></script>
+<script src="/js/copy.js"></script>
+<script src="/js/fireworks.js"></script>
+<script src="/js/transition.js"></script>
+<script src="/js/scroll.js"></script>
+<script src="/js/head.js"></script>
+<script>if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+    $('#nav').addClass('is-mobile');
+    $('footer').addClass('is-mobile')
+}
+var gitalk = new Gitalk({
+    clientID: '59031e088b6c03113145',
+    clientSecret: 'fa3960eb8472b9cd82ad24cc46510c41207d29c3',
+    repo: 'blog',
+    owner: 'lany1721',
+    admin: ['lany1721'],
+    id: location.pathname,      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+});
+
+gitalk.render('gitalk-container')
+</script>
+</body>
+</html>

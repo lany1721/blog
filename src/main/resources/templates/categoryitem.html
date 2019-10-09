@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="分类项">
+    <meta name="keywords" th:content="${category.categoryName}">
+    <meta name="author" content="Zpeace">
+    <title>Category: [[${category.categoryName}]] | Zpeace</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css">
+    <!--<link href="https://cdn.bootcss.com/semantic-ui/2.4.1/components/label.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="dns-prefetch" href="https://cdn.staticfile.org">
+    <link rel="dns-prefetch" href="https://cdn.bootcss.com">
+    <link rel="dns-prefetch" href="https://creativecommons.org">
+
+</head>
+
+<body>
+
+<i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i>
+<div th:replace="fragments::#sidebar"></div>
+<nav th:replace="fragments::#nav"></nav>
+
+<div class="layout ui container">
+    <br>
+    <h1 class="ui  header  center aligned">[[${category.categoryName}]] - [[${blogs.total}]]</h1>
+
+    <div class="ui center aligned container m-padded-tb-big">
+
+        <div class="ui raised  left aligned text container">
+            <div class="ui mini divided list">
+                <div class="item" th:each="blog:${blogs.records}">
+                    <a th:href="@{'/article/' + ${blog.blogId}}" class="header" th:text="${blog.blogTitle}">
+                        Electron-vue开发实战6——开发插件系统之GUI部分
+
+                    </a>
+                    <div class="post-meta">
+                        <i class="calendar alternate outline icon"></i>
+                        <span th:text="${#dates.format(blog.createTime,'yyyy-MM-dd')}">2018-11-06</span>
+                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                        <i class="eye icon"></i><span th:text="${blog.blogView}">12</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <i class="tag icon"></i><span th:each="tag:${blog.tags}" th:text="${tagStat.last}?${tag.tagName}:${tag.tagName}+ ' - '"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="ui mini circular labels" th:if="${blogs.pages > 1}">
+            <a th:each="page:${#numbers.sequence(1,blogs.pages)}"
+               th:href="@{'/category/'+${category.categoryId}(pageNum = ${page})}"
+               th:class="${page == blogs.pageNum}?'ui teal label':'ui label'" th:text="${page}">
+            </a>
+
+
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+
+
+<footer th:replace="fragments::#footer-bg"></footer>
+<i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script>
+<script th:src="@{/js/utils.js}"></script>
+<script th:src="@{/js/fancybox.js}"></script>
+<script th:src="@{/js/sidebar.js}"></script>
+<script th:src="@{/js/copy.js}"></script>
+<script th:src="@{/js/fireworks.js}"></script>
+<script th:src="@{/js/transition.js}"></script>
+<script th:src="@{/js/scroll.js}"></script>
+<script th:src="@{/js/head.js}"></script>
+<script>if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+    $('#nav').addClass('is-mobile');
+    $('footer').addClass('is-mobile')
+}</script>
+</body>
+</html>

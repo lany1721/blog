@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content>
+    <meta name="keywords" content="钟瓶镜">
+    <meta name="author" content="Zpeace">
+    <title>Archives | Zpeace</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css">
+    <link rel="dns-prefetch" href="https://cdn.staticfile.org">
+    <link rel="dns-prefetch" href="https://cdn.bootcss.com">
+    <link rel="dns-prefetch" href="https://creativecommons.org">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.css">
+
+</head>
+<body>
+<i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i>
+<div th:replace="fragments::#sidebar"></div>
+<nav th:replace="fragments::#nav"></nav>
+
+<div class="layout ui container">
+    <br>
+<h1 class="ui  header  center aligned">Archive - [[${countBlog}]]</h1>
+
+<div class="ui container m-padded-tb-big" th:each="archive:${archives}">
+    <div class="ui teal header" th:text="${archive.key}">2019</div>
+    <div class="ui two column stackable grid container m-line-hight">
+        <div class="column" th:each="blog:${archive.value}">
+            <div class="ui  header">
+                <span >· </span><span th:text="${#dates.format(blog.createTime,'MM-dd')}">11-06</span>&nbsp;&nbsp;
+                <a th:href="@{'/article/'+ ${blog.blogId}}" th:text="${blog.blogTitle}">
+                    Electron-vue开发实战6——开发插件系统之GUI部分
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+<footer th:replace="fragments::#footer-bg"></footer>
+<i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i>
+
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script>
+<script src="/js/fancybox.js"></script>
+<script src="/js/sidebar.js"></script>
+<script src="/js/copy.js"></script>
+<script src="/js/fireworks.js"></script>
+<script src="/js/transition.js"></script>
+<script src="/js/scroll.js"></script>
+<script src="/js/head.js"></script>
+<script>if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+    $('#nav').addClass('is-mobile');
+    $('footer').addClass('is-mobile')
+}
+// $(function () {
+//     $("#out-container").fadeIn()
+// })
+
+</script>
+</body>
+</html>

@@ -40,8 +40,5 @@ public class logAspect {
 
     }
 
-    @After("log()")
-    public void doAfter(){
-//        System.out.println("------After-----");
-    }
+
 }

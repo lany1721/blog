@@ -38,7 +38,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag getOneById(Integer tagId) {
+    public Tag getOne(Integer tagId) {
         return tagMapper.selectById(tagId);
     }
 

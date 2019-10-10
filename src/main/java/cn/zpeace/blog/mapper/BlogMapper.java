@@ -36,6 +36,6 @@ public interface BlogMapper extends BaseMapper<Blog> {
     List<Blog> getBlogDetail(@Param("page") MyPage page, @Param("keyword")String keyword,
                              @Param("categoryId")Integer categoryId, @Param("published")Boolean published);
 
-    Integer countKeyword(@Param("keyword")String keyword,@Param("categoryId")Integer categoryId, @Param("published")Boolean published);
+    Integer count(@Param("keyword")String keyword, @Param("categoryId")Integer categoryId, @Param("published")Boolean published);
 
 }

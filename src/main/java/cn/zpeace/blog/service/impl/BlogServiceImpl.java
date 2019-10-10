@@ -6,13 +6,11 @@ import cn.zpeace.blog.mapper.TagMapper;
 
 import cn.zpeace.blog.pojo.Blog;
 import cn.zpeace.blog.pojo.MyPage;
-import cn.zpeace.blog.pojo.Tag;
 import cn.zpeace.blog.service.BlogService;
 import cn.zpeace.blog.util.MarkdownUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +22,7 @@ import java.util.Map;
 
 @Service
 @Transactional
-public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements BlogService {
+public class BlogServiceImpl implements BlogService{
 
     @Autowired
     BlogMapper blogMapper;
@@ -103,8 +101,8 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements Blo
     }
 
     @Override
-    public Integer countBlog() {
-        return blogMapper.countKeyword(null,null,true);
+    public Integer count() {
+        return blogMapper.count(null,null,true);
     }
 
     @Override
@@ -120,10 +118,10 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements Blo
     }
 
     @Override
-    public MyPage<Blog> getAlldetail(Integer pageNum, Integer pageSize, String keyword ,Integer categoryId ,Boolean published) {
+    public MyPage<Blog> getAll(Integer pageNum, Integer pageSize, String keyword , Integer categoryId , Boolean published) {
 
 
-        MyPage<Blog> page = new MyPage<>(pageNum,pageSize,blogMapper.countKeyword(keyword,categoryId,published));
+        MyPage<Blog> page = new MyPage<>(pageNum,pageSize,blogMapper.count(keyword,categoryId,published));
 
         List<Blog> blogs = blogMapper.getBlogDetail(page, keyword,categoryId,published);
 

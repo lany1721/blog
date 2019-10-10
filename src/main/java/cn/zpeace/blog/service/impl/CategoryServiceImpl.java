@@ -27,7 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Integer update(Category category) {
+    public Integer updateOne(Category category) {
         return categoryMapper.updateById(category);
     }
 
@@ -39,12 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getOneByName(String categoryName) {
-        return categoryMapper.selectOne(new QueryWrapper<Category>().like("category_name",categoryName));
-    }
-
-    @Override
-    public Category getOneById(Integer categoryId) {
+    public Category getOne(Integer categoryId) {
         return categoryMapper.selectById(categoryId);
     }
 

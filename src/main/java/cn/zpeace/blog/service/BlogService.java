@@ -26,10 +26,19 @@ public interface BlogService {
 
     Map<String, List<Blog>> getArchives();
 
-    Integer countBlog();
+    Integer count();
 
     IPage<Blog> getByTag(Integer pageNum,Integer pageSize,Integer tagId);
 
-    MyPage<Blog> getAlldetail(Integer pageNum, Integer pageSize, String keyword ,Integer categoryId ,Boolean published);
+    /**
+     *
+     * @param pageNum 当前页
+     * @param pageSize 当前的条目
+     * @param keyword  搜索关键词
+     * @param categoryId 分类Id
+     * @param published 是否发布
+     * @return
+     */
+    MyPage<Blog> getAll(Integer pageNum, Integer pageSize, String keyword , Integer categoryId , Boolean published);
 
 }

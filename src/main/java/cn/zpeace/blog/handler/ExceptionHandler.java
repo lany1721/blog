@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ExceptionHandler {
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)  //当抛出Exception类异常的时候，进行拦截
     public ModelAndView handlerException(HttpServletRequest request,Exception e) throws Exception {
         log.error("Request URL:{} ,exception {}",request.getRequestURL(),e);
 

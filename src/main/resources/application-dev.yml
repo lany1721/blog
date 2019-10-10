@@ -12,7 +12,7 @@ spring:
 logging:
   level:
     cn.zpeace.blog.mapper: debug
-  file: log/blog-dev.log
+
 
 mybatis-plus:
   configuration:

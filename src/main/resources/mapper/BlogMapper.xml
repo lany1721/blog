@@ -111,7 +111,7 @@
         ORDER BY b.create_time DESC
     </select>
 
-    <select id="countKeyword" resultType="java.lang.Integer">
+    <select id="count" resultType="java.lang.Integer">
         SELECT
         COUNT(1)
         FROM

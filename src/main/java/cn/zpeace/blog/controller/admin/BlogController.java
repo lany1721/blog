@@ -2,7 +2,6 @@ package cn.zpeace.blog.controller.admin;
 
 
 import cn.zpeace.blog.pojo.Blog;
-import cn.zpeace.blog.pojo.User;
 import cn.zpeace.blog.service.BlogService;
 import cn.zpeace.blog.service.CategoryService;
 import cn.zpeace.blog.service.TagService;
@@ -18,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -52,7 +50,7 @@ public class BlogController {
 
 
 
-        model.addAttribute("blogs",blogService.getAlldetail(pageNum,pageSize,keyword,categoryId,false));
+        model.addAttribute("blogs",blogService.getAll(pageNum,pageSize,keyword,categoryId,false));
 
         model.addAttribute("categories",categoryService.getAll());
 
@@ -81,7 +79,6 @@ public class BlogController {
 
         Blog blog = blogService.getOne(blogId);
 
-        System.out.println(blog);
 
         model.addAttribute("blog",blog);
 

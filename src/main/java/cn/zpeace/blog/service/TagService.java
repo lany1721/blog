@@ -13,7 +13,7 @@ public interface TagService {
 
     Integer removeOne(Integer tagId);
 
-    Tag getOneById(Integer tagId);
+    Tag getOne(Integer tagId);
 
     IPage<Tag> getAll(Integer pageNum,Integer pageSize);
 

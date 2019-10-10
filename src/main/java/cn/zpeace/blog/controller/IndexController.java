@@ -37,7 +37,7 @@ public class IndexController {
     public String index(Model model,@RequestParam(defaultValue = "1",required = false) Integer pageNum,
                         @RequestParam(required = false) String keyword){
 
-        MyPage<Blog> blogPage = blogService.getAlldetail(pageNum,pageSize,null,null,true);
+        MyPage<Blog> blogPage = blogService.getAll(pageNum,pageSize,null,null,true);
 
         sidebar(model);
 
@@ -50,7 +50,7 @@ public class IndexController {
     public String search(Model model,@RequestParam(defaultValue = "1",required = false) Integer pageNum,
                          @PathVariable String keyword){
 
-        MyPage<Blog> blogPage = blogService.getAlldetail(pageNum, pageSize,keyword,null,true);
+        MyPage<Blog> blogPage = blogService.getAll(pageNum, pageSize,keyword,null,true);
 
         sidebar(model);
 
@@ -87,12 +87,12 @@ public class IndexController {
 
         sidebar(model);
 
-        Category category = categoryService.getOneById(categoryId);
+        Category category = categoryService.getOne(categoryId);
 
         if (category == null) {
             throw new NotFoundException("访问的资源不存在");
         }else {
-            MyPage<Blog> blogBycategory = blogService.getAlldetail(pageNum, pageSize, null, categoryId,true);
+            MyPage<Blog> blogBycategory = blogService.getAll(pageNum, pageSize, null, categoryId,true);
             model.addAttribute("blogs",blogBycategory);
         }
 
@@ -119,7 +119,7 @@ public class IndexController {
     public String tag(Model model,@PathVariable Integer tagId,
                       @RequestParam(defaultValue = "1",required = false)Integer pageNum){
 
-        Tag tag = tagService.getOneById(tagId);
+        Tag tag = tagService.getOne(tagId);
 
 
         if (tag == null){
@@ -149,7 +149,6 @@ public class IndexController {
             session.setMaxInactiveInterval(60*60*24);  //设置一天后过期
             if (blogVisit == null){
                 blogService.updateView(articleId,blog.getBlogView()+1);
-            }else {
                 session.setAttribute("blogVisit"+articleId,"yes");
             }
 
@@ -182,7 +181,7 @@ public class IndexController {
 
         model.addAttribute("links",linkService.getAll());
         model.addAttribute("countCategory",categoryService.count());
-        model.addAttribute("countBlog",blogService.countBlog());
+        model.addAttribute("countBlog",blogService.count());
         model.addAttribute("countTag",tagService.count());
     }
 }

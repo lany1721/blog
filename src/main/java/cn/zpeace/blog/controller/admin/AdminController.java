@@ -95,10 +95,10 @@ public class AdminController {
         if (!file.isEmpty()) {
             //用户目录
             String userDirectory = MyBlogUtil.getUserDirectory(session);
-            System.out.println(file.getOriginalFilename());
+
             //文件重命名
             String newFileName = MyBlogUtil.getNewFileName(file.getOriginalFilename());
-            System.out.println(newFileName);
+            log.info("用户目录为{},文件名为{}",userDirectory,newFileName);
 
             //设置头像的保存位置
             String avatarPath = parentDirPath + userDirectory + "avatar" + File.separator;
@@ -129,7 +129,7 @@ public class AdminController {
     @PutMapping("/user")
     public String updatePassword(Integer userId, String oldPassword,
                                  String newPassword,RedirectAttributes attributes){
-        System.out.println(userId+oldPassword+newPassword);
+
 
         User checkUser = userService.checkPassword(userId, oldPassword);
 

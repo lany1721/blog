@@ -45,7 +45,7 @@ public class CategoryController {
     @ResponseBody
     @PutMapping("/category/{categoryId}")
     public String editCategory(@RequestBody String categoryName,@PathVariable Integer categoryId){
-        Integer statusCode = categoryService.update(new Category(categoryId, categoryName,new Date()));
+        Integer statusCode = categoryService.updateOne(new Category(categoryId, categoryName,new Date()));
 
         return MyBlogUtil.getStatusCode(statusCode);
     }

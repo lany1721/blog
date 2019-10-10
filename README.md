@@ -10,7 +10,7 @@ springboot搭建个人博客
 
 ### 博客管理页面
 
-![1570682705260](images\1570682705260.png)
+![1570682705260](https://github.com/lany1721/blog/images/1570682705260.png)
 
 ### 编辑页面
 

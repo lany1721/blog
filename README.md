@@ -28,7 +28,7 @@ springboot搭建个人博客
 
 ### 友链管理页
 
-![1570683604718]https://github.com/lany1721/blog/blob/master/images/1570683604718.png)
+![1570683604718](https://github.com/lany1721/blog/blob/master/images/1570683604718.png)
 
 ### 编辑框
 

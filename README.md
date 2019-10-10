@@ -10,37 +10,37 @@ springboot搭建个人博客
 
 ### 博客管理页面
 
-![1570682705260](images\1570682705260.png)
+![1570682705260](https://github.com/lany1721/blog/blob/master/images/1570682705260.png)
 
 ### 编辑页面
 
-![](images\admin_editor.png)
+![](https://github.com/lany1721/blog/blob/master/images/admin_editor.png)
 
 ### 分类管理页
 
 
 
-![1570683252179](images\1570683252179.png)
+![1570683252179](https://github.com/lany1721/blog/blob/master/images/1570683252179.png)
 
 ### 标签管理页
 
-![1570683554819](images\1570683554819.png)
+![1570683554819](https://github.com/lany1721/blog/blob/master/images/1570683554819.png)
 
 ### 友链管理页
 
-![1570683604718](images\1570683604718.png)
+![1570683604718](https://github.com/lany1721/blog/blob/master/images/1570683604718.png)
 
 ### 编辑框
 
-![1570683323092](images\1570683323092.png)
+![1570683323092](https://github.com/lany1721/blog/blob/master/images/1570683323092.png)
 
 ### 删除框
 
-![1570683393811](images\1570683393811.png)
+![1570683393811](https://github.com/lany1721/blog/blob/master/images/1570683393811.png)
 
 ### 新增框
 
-![1570683447416](images\1570683447416.png)
+![1570683447416](https://github.com/lany1721/blog/blob/master/images/1570683447416.png)
 
 
 
@@ -149,7 +149,9 @@ MIT
 ## 鸣谢
 
 该项目参考了B站视频 [Spring Boot开发小而美的个人博客系列视频课程](https://www.bilibili.com/video/av66526617)
+
 前台页面来自于 [Hexo-melody](https://github.com/Molunerfinn/hexo-theme-melody)
+
 感谢女友的支持和陪伴
 
 

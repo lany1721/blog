@@ -51,7 +51,9 @@ springboot搭建个人博客
 ## 安装要求
 
 数据库：MySQL 5.7
+
 JDK：JDK8
+
 服务器：nginx
 
 

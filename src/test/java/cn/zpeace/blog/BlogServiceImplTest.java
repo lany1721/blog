@@ -88,7 +88,7 @@ public class BlogServiceImplTest {
     public void getAlldetail1() {
         MyPage<Blog> page = new MyPage<>(1,5);
         List<Blog> test = blogMapper.getBlogDetail(page,"测试");
-        Integer counttest = blogMapper.countKeyword("测试");
+        Integer counttest = blogMapper.count("测试");
         System.out.println(counttest);
         page.setRecords(test);
         System.out.println(test);

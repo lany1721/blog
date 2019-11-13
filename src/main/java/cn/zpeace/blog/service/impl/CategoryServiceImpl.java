@@ -51,6 +51,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getAll() {
+        return categoryMapper.selectList(new QueryWrapper<Category>().select("category_id","category_name"));
+    }
+
+    @Override
+    public List<Category> getUsed() {
         return categoryMapper.getAll();
     }
 

@@ -21,5 +21,7 @@ public interface CategoryService {
 
     List<Category>  getAll();
 
+    List<Category>  getUsed();
+
     Integer count();
 }

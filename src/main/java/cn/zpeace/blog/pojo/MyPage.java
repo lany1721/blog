@@ -34,6 +34,7 @@ public class MyPage<T>{
         if (pageNum > getPages()){
             pageNum = getPages();
         }
+
         this.pageNum = pageNum;
 
 
@@ -63,7 +64,12 @@ public class MyPage<T>{
     }
 
     public int getPages() {
-        return (int)Math.ceil((double)this.total/this.pageSize);
+        int pages = (int)Math.ceil((double)this.total/this.pageSize);
+        if (pages==0){
+            pages = 1;
+        }
+        this.pages = pages;
+        return this.pages;
     }
 
     public void setPages(int pages) {

@@ -34,7 +34,7 @@ public class TagServiceImplTest {
         Tag tag = new Tag();
         tag.setTagId(1);
         tag.setTagName("公孙离");
-        tagService.update(tag);
+        tagService.updateOne(tag);
 
     }
 
@@ -44,8 +44,8 @@ public class TagServiceImplTest {
     }
 
     @Test
-    public void getOneById() {
-        Tag tag = tagService.getOneById(1);
+    public void getOne() {
+        Tag tag = tagService.getOne(1);
         System.out.println(tag);
     }
 

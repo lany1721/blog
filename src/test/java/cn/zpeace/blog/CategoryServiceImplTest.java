@@ -38,7 +38,7 @@ public class CategoryServiceImplTest {
         category.setCategoryId(4);
         category.setCategoryName("你是猪...");
         category.setUpdateTime(new Date());
-        categoryService.update(category);
+        categoryService.updateOne(category);
     }
 
     @Test
@@ -53,8 +53,8 @@ public class CategoryServiceImplTest {
     }
 
     @Test
-    public void getOneById() {
-        Category category = categoryService.getOneById(9);
+    public void getOne() {
+        Category category = categoryService.getOne(9);
         System.out.println(category);
     }
 

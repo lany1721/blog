@@ -3,7 +3,6 @@ package cn.zpeace.blog.service.impl;
 import cn.zpeace.blog.exception.NotFoundException;
 import cn.zpeace.blog.mapper.BlogMapper;
 import cn.zpeace.blog.mapper.TagMapper;
-
 import cn.zpeace.blog.pojo.Blog;
 import cn.zpeace.blog.pojo.MyPage;
 import cn.zpeace.blog.service.BlogService;
@@ -14,7 +13,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -125,6 +123,9 @@ public class BlogServiceImpl implements BlogService{
 
         List<Blog> blogs = blogMapper.getBlogDetail(page, keyword,categoryId,published);
 
+        if (blogs == null) {
+            throw new NotFoundException("搜索结果不存在");
+        }
         page.setRecords(blogs);
 
         return page;

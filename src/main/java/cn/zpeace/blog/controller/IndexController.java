@@ -75,7 +75,7 @@ public class IndexController {
     public String categories(Model model){
 
         sidebar(model);
-        model.addAttribute("categories",categoryService.getAll());
+        model.addAttribute("categories",categoryService.getUsed());
 
         return "categories";
     }
